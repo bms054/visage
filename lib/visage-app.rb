@@ -197,6 +197,12 @@ module Visage
       content_type :jsonp
     end
 
+    options '/*' do
+        headers['Access-Control-Allow-Origin'] = '*'
+        headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+        headers['Access-Control-Max-Age'] = "1728000"
+    end
+
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
       content_type :json if headers["Content-Type"] =~ /text/
@@ -208,6 +214,10 @@ module Visage
       finish      = params[:finish]
       percentiles = params[:percentiles] ||= "false"
       resolution  = params[:resolution]
+
+  headers['Access-Control-Allow-Origin'] = '*'
+  headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+  headers['Access-Control-Max-Age'] = "1728000"
 
       options = {
         :rrddir        => Visage::Config.rrddir,
